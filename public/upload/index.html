@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #main-section::-webkit-scrollbar {
+            width: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="overflow-hidden">
+    <div class="px-10 mb-2 w-full shadow-md flex justify-between items-center bg-gray-100 h-16">
+        <a href="/" class="text-3xl text-center">HomePage</a>
+        <a href="/upload" class="text-2xl text-center">Upload</a>
+    </div>
+
+    <div class="h-screen flex w-full bg-gray-100">
+
+        <div class="h-full w-full flex justify-center items-center">
+
+            <form class="mt-8 space-y-3" action="/upload" enctype="multipart/form-data" method="POST">
+
+                <div class="grid grid-cols-1 space-y-2">
+                    <label class="text-2xl font-bold text-gray-500 tracking-wide">Post</label>
+                    <div class="flex items-center justify-center w-full">
+                        <label class="text-sm font-bold text-gray-500 tracking-wide">Upload.. </label>
+                        <div class="flex items-center justify-center w-full">
+                            <label
+                                class="flex flex-col rounded-lg border-4 border-dashed w-full h-20 p-4 group text-center">
+                                <div class="h-full w-full text-center flex flex-col items-center justify-center">
+                                    <input required id="imageupload" name="imageupload" type="file">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-300">
+                        <span>File type:images or gifs</span>
+                    </p>
+                    <div class="grid grid-cols-1 space-y-2">
+                        <label class="text-sm font-bold text-gray-500 tracking-wide">Caption</label>
+                        <input
+                            class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
+                            type="text" name="caption" required placeholder="caption...">
+                    </div>
+                    <div>
+                        <button type="submit"
+                            class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full">
+                            Upload
+                        </button>
+                    </div>
+            </form>
+
+
+        </div>
+
+    </div>
+</body>
+
+</html>
