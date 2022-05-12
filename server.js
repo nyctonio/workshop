@@ -13,10 +13,14 @@ cloudinary.config({
     secure: true,
 });
 require('./config/mongoose');
+
+// file upload
 const multer = require("multer");
 const fileUpload = multer();
 const uploadImage = require("./config/cloudinary");
-const mongoose = require('mongoose');
+
+
+
 // socket.io
 const { Server } = require("socket.io");
 const http = require('http');
@@ -24,12 +28,23 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+    socket.on('chat', (msg) => {
+        console.log(msg);
+        io.emit('chat', msg);
     });
 });
 
+app.get('/form', (req, res) => {
+    res.sendFile(__dirname + '/public/form/index.html');
+})
 
+app.post('/form', (req, res) => {
+    console.log(req.body);
+    res.redirect('/');
+})
+
+// database
+const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
     image: { type: String, required: true, unique: true },
@@ -39,6 +54,9 @@ const postSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const post = mongoose.model("post", postSchema);
+
+// ----
+
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/homepage/index.html');
@@ -70,13 +88,18 @@ app.get('/downvote/:id', function (req, res) {
 });
 
 app.post('/upload', fileUpload.single("imageupload"), function (req, res) {
-    console.log(req.file);
+    // console.log(req.file);
     let caption = req.body.caption;
+
     let imageurl;
     uploadImage(req).then(async (result) => {
         console.log(result);
         imageurl = result.secure_url;
-        post.create({ image: imageurl, caption: caption }, (err, post) => {
+        const obj = {
+            image: imageurl,
+            caption,
+        }
+        post.create(obj, (err, post) => {
             if (err) {
                 console.log(err);
             } else {
@@ -101,6 +124,10 @@ app.get('/posts', function (req, res) {
         }
     });
 });
+
+
+
+
 
 
 server.listen(PORT, () => {
